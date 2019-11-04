@@ -5,7 +5,7 @@ FLIP_TOP_BOTTOM = 1
 
 class BoxList(object):
     def __init__(self, bbox, image_size, mode='xyxy', device=torch.device('cpu')):
-        x = torch.as_tensor(bbox, dtype=torch.float32, device=device)
+        bbox = torch.as_tensor(bbox, dtype=torch.float32, device=device)
         if bbox.ndimension() != 2:
             raise ValueError(
                 "bbox should have 2 dimensions, got {}".format(bbox.ndimension())
@@ -135,7 +135,9 @@ class BoxList(object):
             transposed_size = self.size
         else:
             RuntimeError("Should not be here")
-
+        transposed_boxes = torch.cat(
+            (transposed_xmin, transposed_ymin, transposed_xmax, transposed_ymax), dim=-1
+        ) 
         bbox = BoxList(transposed_boxes, transposed_size, mode="xyxy")
         # bbox._copy_extra_fields(self)
         for k, v in self.extra_fields.items():

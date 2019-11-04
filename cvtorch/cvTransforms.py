@@ -106,14 +106,11 @@ class ToTensor(object):
         return image, target
 
 class Normalize(object):
-    def __init__(self, mean, std, to_bgr255=True, pixel_augmentation=False):
-        self.mean = torch.tensor(mean)
-        self.std = torch.tensor(std)
-        self.pixel_augmentation = pixel_augmentation
+    def __init__(self, mean, std):
+        self.mean = np.array(mean)
+        self.std = np.array(std)
 
     def __call__(self, image, target):
         image[..., :3] = (image[..., :3] - self.mean) / self.std
-        if self.pixel_augmentation and torch.rand(1) < 0.2:
-            image *= (torch.rand(3) * 0.2 + 0.9).unsqueeze(1).unsqueeze(2)
-        return image, target
+        return image.astype(np.uint8), target
 

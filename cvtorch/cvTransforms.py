@@ -124,6 +124,6 @@ class NormalizeAsTorch(object):
     def __call__(self, image, target):
         if self.to_bgr255:
             image = image[[2, 1, 0]] * 255
-            image = F.normalize(image, mean=self.mean, std=self.std)
+        image = F.normalize(image, mean=self.mean, std=self.std)
         return image, target
                  

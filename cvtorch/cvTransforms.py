@@ -105,12 +105,25 @@ class ToTensor(object):
         image = torch.from_numpy((image.astype(np.float32)).transpose((2, 0, 1)))
         return image, target
 
-class Normalize(object):
+class NormalizeAsNumpy(object):
+    ''' normalize a HxWxC image
+    '''
     def __init__(self, mean, std):
         self.mean = np.array(mean)
         self.std = np.array(std)
 
     def __call__(self, image, target):
-        image[..., :3] = (image[..., :3] - self.mean) / self.std
+        image[...,:] = (image[...,:] - self.mean) / self.std
         return image.astype(np.uint8), target
 
+class NormalizeAsTorch(object):
+    def __init__(self, mean, std, to_bgr255=True):
+        self.mean = torch.tensor(mean)
+        self.std = torch.tensor(std)
+
+    def __call__(self, image, target):
+        if self.to_bgr255:
+            image = image[[2, 1, 0]] * 255
+            image = F.normalize(image, mean=self.mean, std=self.std)
+        return image, target
+                 

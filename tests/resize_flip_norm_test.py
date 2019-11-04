@@ -1,4 +1,4 @@
-from cvtorch.cvTransforms import Resize, RandomHorizontalFlip, RandomVerticalFlip, Normalize
+from cvtorch.cvTransforms import Resize, RandomHorizontalFlip, RandomVerticalFlip, NormalizeAsNumpy
 from cvtorch.cvBox import BoxList
 import cv2
 import numpy as np
@@ -40,7 +40,7 @@ def resize_filp_test():
 
 def normalize_test():
     box = np.array([[100,100,500,500],[600, 600, 400, 200]])
-    norm = Normalize(mean=[110, 107, 124], std=[1.,1.,1.])
+    norm = NormalizeAsNumpy(mean=[110, 107, 124], std=[1.,1.,1.])
     img = cv2.imread('/core1/data/home/niuwenhao/data/tmp/02a0ae9a89b4a1937b228f0c1f90a8d8.jpg')
     #img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
     imgn, boxn = norm(img, box)

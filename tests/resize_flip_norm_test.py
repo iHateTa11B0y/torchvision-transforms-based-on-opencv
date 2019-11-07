@@ -1,4 +1,4 @@
-from cvtorch.cvTransforms import Resize, RandomHorizontalFlip, RandomVerticalFlip, NormalizeAsNumpy
+from cvtorch.cvTransforms import Resize, RandomHorizontalFlip, RandomVerticalFlip, NormalizeAsNumpy, NormalizeAsTorch
 from cvtorch.cvBox import BoxList
 import cv2
 import numpy as np
@@ -46,24 +46,10 @@ def normalize_test():
     imgn, boxn = norm(img, box)
     print(imgn.shape)
     imgpil = Image.open('/core1/data/home/niuwenhao/data/tmp/02a0ae9a89b4a1937b228f0c1f90a8d8.jpg')
-    imgpil = F.to_tensor(imgpil)
+    imgpil = F.to_tensor(imgpil).type(torch.float32)
     print(imgpil.shape)
-    class PNormalize(object):
-        def __init__(self, mean, std, to_bgr255=True, pixel_augmentation=False):
-            self.mean = torch.tensor(mean)
-            self.std = torch.tensor(std)
-            self.to_bgr255 = to_bgr255
-            self.pixel_augmentation = pixel_augmentation
-    
-        def __call__(self, image, target):
-            if self.to_bgr255:
-                image = image[[2, 1, 0]] * 255
-            image = F.normalize(image, mean=self.mean, std=self.std)
-            if self.pixel_augmentation and torch.rand(1) < 0.2:
-                image *= (torch.rand(3) * 0.2 + 0.9).unsqueeze(1).unsqueeze(2)
-            return image, target
-    
-    pnorm = PNormalize(mean=[110, 107, 124], std=[1.,1.,1.])
+   
+    pnorm = NormalizeAsTorch(mean=[110, 107, 124], std=[1.,1.,1.])
     imgpiln, boxpn = pnorm(imgpil, box)
     
     imgn = imgn.astype(np.uint8)

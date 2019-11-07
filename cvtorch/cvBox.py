@@ -4,6 +4,10 @@ FLIP_LEFT_RIGHT = 0
 FLIP_TOP_BOTTOM = 1
 
 class BoxList(object):
+    '''
+    handy structure for object detection target. 
+    copies from https://github.com/facebookresearch/maskrcnn-benchmark/blob/master/maskrcnn_benchmark/structures/bounding_box.py
+    '''
     def __init__(self, bbox, image_size, mode='xyxy', device=torch.device('cpu')):
         bbox = torch.as_tensor(bbox, dtype=torch.float32, device=device)
         if bbox.ndimension() != 2:

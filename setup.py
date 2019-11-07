@@ -13,7 +13,7 @@ install_requires = [
 
 setup(
     name='cvtorch',
-    version='0.0.6',
+    version='0.0.7',
     description='vision tools based on opencv',
     long_description=readme,
     author='iHateTa11B0y',

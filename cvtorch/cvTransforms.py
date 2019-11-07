@@ -10,7 +10,7 @@ class Compose(object):
     def __init__(self, transforms):
         self.transforms = transforms
 
-    def __call__(self, image, target):
+    def __call__(self, image, target=None):
         for t in self.transforms:
             image, target = t(image, target)
         return image, target
@@ -54,10 +54,11 @@ class Resize(object):
 
         return (ow, oh)
 
-    def __call__(self, image, target):
+    def __call__(self, image, target=None):
         size = self.get_size((image.shape[1], image.shape[0]))
         image = cv2.resize(image, dsize=size, interpolation=cv2.INTER_LINEAR)
-        target = target.resize((image.shape[1], image.shape[0]))
+        if target is not None:
+            target = target.resize((image.shape[1], image.shape[0]))
         return image, target
 
 
@@ -65,20 +66,22 @@ class RandomHorizontalFlip(object):
     def __init__(self, prob=0.5):
         self.prob = prob
 
-    def __call__(self, image, target):
+    def __call__(self, image, target=None):
         if random.random() < self.prob:
             image = cv2.flip(image, 1).reshape(image.shape)
-            target = target.transpose(0)
+            if target is not None:
+                target = target.transpose(0)
         return image, target
 
 class RandomVerticalFlip(object):
     def __init__(self, prob=0.5):
         self.prob = prob
 
-    def __call__(self, image, target):
+    def __call__(self, image, target=None):
         if random.random() < self.prob:
             image = cv2.flip(image, 0).reshape(image.shape)
-            target = target.transpose(1)
+            if target is not None:
+                target = target.transpose(1)
         return image, target
 
 
@@ -95,13 +98,13 @@ class ColorJitter(object):
             saturation=saturation,
             hue=hue,)
 
-    def __call__(self, image, target):
+    def __call__(self, image, target=None):
         image = self.color_jitter(image)
         return image, target
 
 
 class ToTensor(object):
-    def __call__(self, image, target):
+    def __call__(self, image, target=None):
         image = torch.from_numpy((image.astype(np.float32)).transpose((2, 0, 1)))
         return image, target
 
@@ -112,16 +115,17 @@ class NormalizeAsNumpy(object):
         self.mean = np.array(mean)
         self.std = np.array(std)
 
-    def __call__(self, image, target):
+    def __call__(self, image, target=None):
         image[...,:] = (image[...,:] - self.mean) / self.std
         return image.astype(np.uint8), target
 
 class NormalizeAsTorch(object):
     def __init__(self, mean, std, to_bgr255=True):
-        self.mean = torch.tensor(mean)
-        self.std = torch.tensor(std)
+        self.mean = torch.tensor(mean,dtype=torch.float32)
+        self.std = torch.tensor(std,dtype=torch.float32)
+        self.to_bgr255 = to_bgr255
 
-    def __call__(self, image, target):
+    def __call__(self, image, target=None):
         if self.to_bgr255:
             image = image[[2, 1, 0]] * 255
         image = F.normalize(image, mean=self.mean, std=self.std)

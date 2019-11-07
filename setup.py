@@ -1,9 +1,6 @@
 from setuptools import setup, find_packages
 import sys, os
 
-with open('README.md', 'rb') as f:
-    readme = f.read().decode('utf-8')
-
 install_requires = [
         'torch',
         'torchvision',
@@ -11,11 +8,15 @@ install_requires = [
         'opencv-python',
         ]
 
+long_description = '''
+This repository is intended to offer some common augmentataion functions in computer vision task base on opencv. The functions' prototype comes from FAIR's maskrcnn-benchmark. I tried my best to implement these functions strictly follow the details of torchvision and pillow. Any discussions are welcomed.
+'''
+
 setup(
     name='cvtorch',
     version='0.0.7',
     description='vision tools based on opencv',
-    long_description=readme,
+    long_description=long_description,
     author='iHateTa11B0y',
     author_email='1187203155@qq.com',
     install_requires=install_requires,

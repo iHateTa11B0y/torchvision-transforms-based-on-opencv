@@ -7,31 +7,31 @@ This repository is intended to offer some common augmentataion functions in comp
 This is a handy structure in object detection implemented by FAIR. [original code](https://github.com/facebookresearch/maskrcnn-benchmark/blob/master/maskrcnn_benchmark/structures/bounding_box.py)
 
 
-- cvtorch.cvTransforms.Compose <br>
+- **cvtorch.cvTransforms.Compose** <br>
 Compose a series of transforms to an opencv image (numpy ndarray in BGR order) and cvBox target
 
-- cvtorch.cvTransforms.Resize <br>
+- **cvtorch.cvTransforms.Resize** <br>
 Resize an opencv image and target. target is optional.
 
-- cvtorch.cvTransforms.RandomHorizontalFlip <br>
+- **cvtorch.cvTransforms.RandomHorizontalFlip** <br>
 random horizontally filp an opencv image and target. target is optional.
 
-- cvtorch.cvTransforms.RandomVerticalFlip <br>
+- **cvtorch.cvTransforms.RandomVerticalFlip** <br>
 random vertically filp an opencv image and target. target is optional.
 
-- cvtorch.cvTransforms.ColorJitter <br>
+- **cvtorch.cvTransforms.ColorJitter** <br>
 randomly jit brightness, contrast, saturation, hue of an opencv image and targe. target is optional.
 
-- cvtorch.cvFunctional.ColorJitter <br>
+- **cvtorch.cvFunctional.ColorJitter** <br>
 randomly jit brightness, contrast, saturation, hue of an opencv image.
 
-- cvtorch.cvTransforms.ToTensor <br>
+- **cvtorch.cvTransforms.ToTensor** <br>
 convert an opencv image to tensor. (follow torchvision with transpose).
 
-- cvtorch.cvTransforms.NormalizeAsNumpy <br>
+- **cvtorch.cvTransforms.NormalizeAsNumpy** <br>
 Normalize an opencv image.
 
-- cvtorch.cvTransforms.NormalizeAsTorch <br>
+- **cvtorch.cvTransforms.NormalizeAsTorch** <br>
 Normalize a tensor image.
 
 Eg
@@ -53,10 +53,10 @@ transforms = T.Compose(
 ```
 
 ## Functions
-- cvtorch.cvFunctional.adjust_brightness
-- cvtorch.cvFunctional.adjust_contrast
-- cvtorch.cvFunctional.adjust_hue
-- cvtorch.cvFunctional.adjust_saturation
+- **cvtorch.cvFunctional.adjust_brightness**
+- **cvtorch.cvFunctional.adjust_contrast**
+- **cvtorch.cvFunctional.adjust_hue**
+- **cvtorch.cvFunctional.adjust_saturation**
 
 ## installation
 `pip install cvtorch`

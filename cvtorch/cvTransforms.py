@@ -11,8 +11,11 @@ class Compose(object):
         self.transforms = transforms
 
     def __call__(self, image, target=None):
+        flag = target is None
         for t in self.transforms:
             image, target = t(image, target)
+        if flag:
+            return image
         return image, target
 
     def __repr__(self):

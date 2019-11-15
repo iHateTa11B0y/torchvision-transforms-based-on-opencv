@@ -14,7 +14,7 @@ This repository is intended to offer some common augmentataion functions in comp
 
 setup(
     name='cvtorch',
-    version='0.0.7',
+    version='0.0.9',
     description='vision tools based on opencv',
     long_description=long_description,
     author='iHateTa11B0y',

@@ -2,7 +2,8 @@ import cv2
 import numpy as np
 
 def blend(im1, im2, alpha):
-    return (im1 * (1 - alpha) + im2 * alpha).astype(np.uint8)
+    img = im1.astype(np.float64) * (1. - alpha) + im2.astype(np.float64) * alpha
+    return np.clip(img, 0, 255).astype(np.uint8)
 
 class _Enhance(object):
     def enhance(self, factor):
